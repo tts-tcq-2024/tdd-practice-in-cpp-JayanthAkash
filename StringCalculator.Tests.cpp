@@ -62,3 +62,12 @@ TEST(StringCalculatorAddTests, ExpectSumWithCustomDelimiter) {
 
     ASSERT_EQ(result, expectedresult);
 }
+
+TEST(StringCalculatorAddTests, ExpectSumWithCustomMultiCharDelimiter) {
+    int expectedresult = 3;
+    std::string input = "//*+*\n1*+*2";
+    StringCalculator objUnderTest;
+    int result = objUnderTest.add(input);
+
+    ASSERT_EQ(result, expectedresult);
+}
