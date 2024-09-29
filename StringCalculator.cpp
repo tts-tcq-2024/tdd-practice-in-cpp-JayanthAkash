@@ -1,7 +1,7 @@
 #include "StringCalculator.h"
 #include <stdexcept>
 
-int addNumbers(std::vector<int> numbers)
+int sum_numbers(std::vector<int> numbers)
 {
     int sum = 0;
     for (int number : numbers)
@@ -19,12 +19,17 @@ void check_negative_numbers(std::vector<int> numbers) {
     }
 }
 
-std::vector<int> splitStringToVector(const std::string& input_str) {
+bool is_delimter(char character)
+{
+    return (character != ',' && character != '\n');
+}
+
+std::vector<int> split_string_to_vector(const std::string& input_str) {
     std::vector<int> output_vector;
     int num = 0;
 
     for (char character : input_str) {
-        if (character != ',') {
+        if (is_delimter(character)) {
             num = num * 10 + (character - '0');
         }
         else {
@@ -41,7 +46,7 @@ std::vector<int> splitStringToVector(const std::string& input_str) {
 std::vector<int> parse_numbers(const std::string& input) {
     
     std::vector<int> numbers;
-    numbers = splitStringToVector(input);
+    numbers = split_string_to_vector(input);
     return numbers;
 }
 
@@ -53,5 +58,5 @@ int StringCalculator::add(const std::string &input) {
 
     check_negative_numbers(numbers);
 
-    return addNumbers(numbers);
+    return sum_numbers(numbers);
 }
