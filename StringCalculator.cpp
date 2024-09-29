@@ -1,4 +1,5 @@
 #include "StringCalculator.h"
+#include <stdexcept>
 
 int addNumbers(std::vector<int> numbers)
 {
@@ -8,6 +9,14 @@ int addNumbers(std::vector<int> numbers)
         sum += number;
     }
     return sum;
+}
+
+void check_negative_numbers(std::vector<int> numbers) {
+    for (int number : numbers) {
+        if (number < 0) {
+            throw std::runtime_error("Negative number found");
+        }
+    }
 }
 
 std::vector<int> splitStringToVector(const std::string& input_str) {
@@ -41,6 +50,8 @@ int StringCalculator::add(const std::string &input) {
 		return 0;
 
 	std::vector<int> numbers = parse_numbers(input);
+
+    check_negative_numbers(numbers);
 
     return addNumbers(numbers);
 }
