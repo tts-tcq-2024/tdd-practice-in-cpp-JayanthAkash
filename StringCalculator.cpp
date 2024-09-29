@@ -40,8 +40,9 @@ std::string get_delimiter(std::string& input_str) {
     std::string numbers_str = input_str;
 
     if (numbers_str.rfind("//", 0) == 0) {
-        delimiter = numbers_str[2];
-        input_str = numbers_str.substr(4);
+        size_t newline_pos = numbers_str.find('\n', 2);
+        delimiter = numbers_str.substr(2, newline_pos - 2);
+        input_str = numbers_str.substr(newline_pos + 1);
     }
     else {
         input_str = numbers_str;
@@ -51,7 +52,7 @@ std::string get_delimiter(std::string& input_str) {
 
 bool is_delimter(char character, std::string delimiter)
 {
-    return (character != delimiter[0] && character != '\n');
+    return (delimiter.find(character) == std::string::npos && character != '\n');
 }
 
 std::vector<int> split_string_to_vector(const std::string& input_str) {
