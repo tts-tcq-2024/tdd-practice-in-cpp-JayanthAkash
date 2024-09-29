@@ -6,30 +6,61 @@ int sum_numbers(std::vector<int> numbers)
     int sum = 0;
     for (int number : numbers)
     {
-        sum += number;
+        if (number < 1000) {
+            sum += number;
+        }
     }
     return sum;
 }
 
-void check_negative_numbers(std::vector<int> numbers) {
+std::string get_negative_numbers(const std::vector<int> numbers) {
+    std::string negativeNumbers;
+
     for (int number : numbers) {
         if (number < 0) {
-            throw std::runtime_error("Negative number found");
+            negativeNumbers += std::to_string(number) + " ";
         }
+    }
+    return negativeNumbers;
+}
+
+void check_negative_numbers(const std::vector<int> numbers) {
+    std::string negativeNumbers;
+
+    negativeNumbers = get_negative_numbers(numbers);
+
+    if (!negativeNumbers.empty()) {
+        throw std::runtime_error("Negative numbers found: " + negativeNumbers);
     }
 }
 
-bool is_delimter(char character)
+std::string get_delimiter(std::string& input_str) {
+
+    std::string delimiter = ",";
+    std::string numbers_str = input_str;
+
+    if (numbers_str.rfind("//", 0) == 0) {
+        delimiter = numbers_str[2];
+        input_str = numbers_str.substr(4);
+    }
+    else {
+        input_str = numbers_str;
+    }
+    return delimiter;
+}
+
+bool is_delimter(char character, std::string delimiter)
 {
-    return (character != ',' && character != '\n');
+    return (character != delimiter[0] && character != '\n');
 }
 
 std::vector<int> split_string_to_vector(const std::string& input_str) {
     std::vector<int> output_vector;
     int num = 0;
+    std::string delimiter = get_delimiter((std::string&)input_str);
 
     for (char character : input_str) {
-        if (is_delimter(character)) {
+        if (is_delimter(character, delimiter)) {
             num = num * 10 + (character - '0');
         }
         else {
